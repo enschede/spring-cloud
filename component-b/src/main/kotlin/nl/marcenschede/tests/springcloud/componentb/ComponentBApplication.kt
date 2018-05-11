@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.cloud.netflix.ribbon.RibbonClient
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.cloud.openfeign.FeignClient
-import org.springframework.core.env.Environment
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @SpringBootApplication
 @RestController
 @EnableFeignClients
+@EnableDiscoveryClient
 class ComponentBApplication {
 
     val logger: Logger = LoggerFactory.getLogger(javaClass)
@@ -43,8 +43,7 @@ class ComponentBApplication {
 
 data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "", var port:Int = 0)
 
-@FeignClient(name = "component-c")
-@RibbonClient(name = "component-c")
+@FeignClient(name = "component-c", url = "localhost:8200")
 interface ForecastProxy {
 
     @GetMapping("/locate/{city}")
