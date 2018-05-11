@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>eureka-naming-service</module>
         <module>component-a</module>
         <module>component-b</module>
         <module>component-c</module>
