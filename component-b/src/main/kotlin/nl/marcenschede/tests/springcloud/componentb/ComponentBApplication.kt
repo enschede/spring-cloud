@@ -1,28 +1,40 @@
 package nl.marcenschede.tests.springcloud.componentb
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.client.RestTemplate
 
 @SpringBootApplication
 @RestController
+@EnableFeignClients
 class ComponentBApplication {
+
+    @Autowired
+    lateinit var proxy: ForecastProxy
 
     @GetMapping("/forecast/{city}")
     fun createForecast(@PathVariable city: String): Forecast? {
 
-        val forcastResponse = RestTemplate().getForEntity("http://localhost:8200/locate/enschede", Forecast::class.java)
-
-        val forecast = forcastResponse.body
-        forecast?.forecast = "Sunny!"
+        val forecast = proxy.createForecast(city)
+        forecast?.forecast = "Warm and sunny!"
 
         return forecast
     }
 
-    data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "")
+}
+
+data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "")
+
+@FeignClient(name = "component-c", url = "localhost:8200")
+interface ForecastProxy {
+
+    @GetMapping("/locate/{city}")
+    fun createForecast(@PathVariable city: String): Forecast?
 }
 
 fun main(args: Array<String>) {
