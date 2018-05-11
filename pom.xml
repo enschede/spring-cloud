@@ -7,6 +7,12 @@
     <groupId>nl.marcenschede.tests</groupId>
     <artifactId>spring-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
+    <modules>
+        <module>component-a</module>
+        <module>component-b</module>
+        <module>component-c</module>
+    </modules>
 
 </project>
