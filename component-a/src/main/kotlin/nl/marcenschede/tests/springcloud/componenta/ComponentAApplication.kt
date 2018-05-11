@@ -3,6 +3,7 @@ package nl.marcenschede.tests.springcloud.componenta
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.netflix.ribbon.RibbonClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,7 +30,8 @@ class ComponentAApplication {
 
 data class ForecastPresenter(val city: String, val longitude: String, val lattitude: String, var forecast: String = "")
 
-@FeignClient(name = "component-b", url = "localhost:8100")
+@FeignClient(name = "component-b")
+@RibbonClient(name = "component-b")
 interface ForecastProxy {
 
     @GetMapping("/forecast/{city}")
