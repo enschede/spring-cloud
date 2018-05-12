@@ -32,11 +32,11 @@ class ComponentAApplication {
 
 data class ForecastPresenter(val city: String, val longitude: String, val lattitude: String, var forecast: String = "", var port:Int = 0)
 
-@FeignClient(name = "component-b")
+@FeignClient(name = "zuul-api-gateway-service")
 @RibbonClient(name = "component-b")
 interface ForecastProxy {
 
-    @GetMapping("/forecast/{city}")
+    @GetMapping("/component-b/forecast/{city}")
     fun createForecast(@PathVariable city: String): ForecastPresenter?
 }
 

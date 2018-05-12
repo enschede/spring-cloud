@@ -1,4 +1,4 @@
-## Important notes
+## Aantekeningen bij Spring Cloud Netflix PoC
 
 ### Feign
 
@@ -13,3 +13,8 @@ Eureka update information can be delayed up to 1 minute. Therefor restarting a c
 ### Zuul
 
 Het lijkt erop dat een Zuul API filter meerdere filters kan uitvoeren. Zie hiervoor de method filterOrder.
+
+Het is niet duidelijk waarom het filter 'null' terug geeft. Hoe wordt een gefilterd request dan verwerkt?
+
+Ook hier duurt het even voordat de request foutloos wordt verwerkt.
+
