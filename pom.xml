@@ -11,6 +11,7 @@
 
     <modules>
         <module>eureka-naming-service</module>
+        <module>zuul-api-gateway-service</module>
         <module>component-a</module>
         <module>component-b</module>
         <module>component-c</module>
