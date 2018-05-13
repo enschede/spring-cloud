@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 @EnableDiscoveryClient
 class ComponentBApplication {
 
-    val logger: Logger = LoggerFactory.getLogger(javaClass)
+    val logger: Logger = LoggerFactory.getLogger(ComponentBApplication::class.java)
 
     @Autowired
     lateinit var proxy: ForecastProxy
@@ -36,6 +36,8 @@ class ComponentBApplication {
         val forecast = proxy.createForecast(city)
         forecast?.forecast = "Warm and sunny!"
         forecast?.port = port
+
+        logger.info("Found forecast is {}", forecast)
 
         return forecast
     }

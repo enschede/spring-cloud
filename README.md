@@ -20,3 +20,9 @@ Het is niet duidelijk waarom het filter 'null' terug geeft. Hoe wordt een gefilt
 
 Ook hier duurt het even voordat de request foutloos wordt verwerkt.
 
+### Sleuth en Zipkin
+
+Sleuth dependencies toevoegen is voldoende. Er zijn geen code wijzigingen nodig. Logging is wel handig omdat daarmee de Sleuth-ids zichtbaar worden in de logging.
+
+### Hystrix
+

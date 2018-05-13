@@ -1,5 +1,6 @@
 package nl.marcenschede.tests.springcloud.componenta
 
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController
 @EnableDiscoveryClient
 class ComponentAApplication {
 
+    val logger = LoggerFactory.getLogger(ComponentAApplication::class.java)
+
     @Autowired
     lateinit var proxy: ForecastProxy
 
@@ -24,6 +27,8 @@ class ComponentAApplication {
     fun createForecast(@PathVariable city: String): ForecastPresenter? {
 
         val forecast = proxy.createForecast(city)
+
+        logger.info("Forecast to present is {}", forecast)
 
         return forecast
     }
