@@ -13,6 +13,9 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import brave.sampler.Sampler
+import org.springframework.context.annotation.Bean
+
 
 @SpringBootApplication
 @RestController
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @EnableDiscoveryClient
 class ComponentBApplication {
 
-    val logger: Logger = LoggerFactory.getLogger(javaClass)
+    val logger: Logger = LoggerFactory.getLogger(ComponentBApplication::class.java)
 
     @Autowired
     lateinit var proxy: ForecastProxy
@@ -37,9 +40,15 @@ class ComponentBApplication {
         forecast?.forecast = "Warm and sunny!"
         forecast?.port = port
 
+        logger.info("Found forecast is {}", forecast)
+
         return forecast
     }
 
+    @Bean
+    fun defaultSampler(): Sampler {
+        return Sampler.ALWAYS_SAMPLE
+    }
 }
 
 data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "", var port:Int = 0)

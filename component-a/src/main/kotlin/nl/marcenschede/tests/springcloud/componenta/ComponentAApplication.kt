@@ -1,5 +1,6 @@
 package nl.marcenschede.tests.springcloud.componenta
 
+import org.slf4j.LoggerFactory
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import com.netflix.ribbon.proxy.annotation.Hystrix
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,6 +14,9 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import brave.sampler.Sampler
+import org.springframework.context.annotation.Bean
+
 
 @SpringBootApplication
 @RestController
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController
 @EnableDiscoveryClient
 @EnableHystrix
 class ComponentAApplication {
+
+    val logger = LoggerFactory.getLogger(ComponentAApplication::class.java)
 
     @Autowired
     lateinit var proxy: ForecastProxy
@@ -32,6 +38,16 @@ class ComponentAApplication {
     @HystrixCommand(fallbackMethod = "fallbackForecast")
     fun errorForecast(@PathVariable city: String): ForecastPresenter? =
         throw RuntimeException()
+
+        logger.info("Forecast to present is {}", forecast)
+
+        return forecast
+    }
+
+    @Bean
+    fun defaultSampler(): Sampler {
+        return Sampler.ALWAYS_SAMPLE
+    }
 
     fun fallbackForecast(@PathVariable city: String): ForecastPresenter? =
         ForecastPresenter("none", "0", "0")
