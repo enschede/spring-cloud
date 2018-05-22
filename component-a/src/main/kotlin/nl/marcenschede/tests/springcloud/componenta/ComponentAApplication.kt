@@ -39,11 +39,6 @@ class ComponentAApplication {
     fun errorForecast(@PathVariable city: String): ForecastPresenter? =
         throw RuntimeException()
 
-        logger.info("Forecast to present is {}", forecast)
-
-        return forecast
-    }
-
     @Bean
     fun defaultSampler(): Sampler {
         return Sampler.ALWAYS_SAMPLE
