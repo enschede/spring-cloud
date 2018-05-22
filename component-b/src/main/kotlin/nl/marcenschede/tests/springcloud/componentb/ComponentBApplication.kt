@@ -13,6 +13,9 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import brave.sampler.Sampler
+import org.springframework.context.annotation.Bean
+
 
 @SpringBootApplication
 @RestController
@@ -42,6 +45,10 @@ class ComponentBApplication {
         return forecast
     }
 
+    @Bean
+    fun defaultSampler(): Sampler {
+        return Sampler.ALWAYS_SAMPLE
+    }
 }
 
 data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "", var port:Int = 0)

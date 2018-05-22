@@ -7,6 +7,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
+import brave.sampler.Sampler
+import org.springframework.context.annotation.Bean
+
 
 @SpringBootApplication
 @RestController
@@ -23,8 +26,12 @@ class ComponentCApplication {
         return coordinates
     }
 
-    data class Coordinates(val city: String, val longitude: String, val lattitude: String)
+    @Bean
+    fun defaultSampler(): Sampler {
+        return Sampler.ALWAYS_SAMPLE
+    }
 
+    data class Coordinates(val city: String, val longitude: String, val lattitude: String)
 }
 
 fun main(args: Array<String>) {

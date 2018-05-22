@@ -24,5 +24,9 @@ Ook hier duurt het even voordat de request foutloos wordt verwerkt.
 
 Sleuth dependencies toevoegen is voldoende. Er zijn geen code wijzigingen nodig. Logging is wel handig omdat daarmee de Sleuth-ids zichtbaar worden in de logging.
 
+docker run -d --hostname my-rabbit --name some-rabbit rabbitmq
+
+docker run -d --hostname my-rabbit -p 4369:4369 -p5671:5671 -p 5672:5672  --name some-rabbit rabbitmq
+
 ### Hystrix
 
