@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Mono
+import reactor.core.publisher.toMono
 
 
 @SpringBootApplication
@@ -51,7 +53,13 @@ class ReactiveRouterApplication {
 class Handler {
 
     fun handle(serverRequest: ServerRequest): Mono<ServerResponse> {
-        return ServerResponse.ok().build()
+        val builder = ServerResponse.ok()
+        builder.headers {
+            t -> t.add("myHeader", "myHeaderValue")
+        }
+
+
+        return builder.body("hello".toMono(), String::class.java)
     }
 
 }
