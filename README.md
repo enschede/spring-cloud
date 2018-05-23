@@ -30,3 +30,12 @@ docker run -d --hostname my-rabbit -p 4369:4369 -p5671:5671 -p 5672:5672  --name
 
 ### Hystrix
 
+
+
+### Reactive router (vanaf Spring Boot 2)
+
+De essentie is dat alles nu in 1 thread draait. Snel, maar je moet voorkomen dat de thread blokkeert met een langlopende opdracht.
+De aangeroepen functie geeft een Mono of Flux terug. Dat kan heel snel.
+Pas bij het teruggeven van het reply bericht wordt de lambda in de Mono of Flux aangeroepen om de waarde te bepalen.
+
+Dit werkt natuurlijk alleen als je leverancier ook reactive is of het bericht snel kan worden bepaald.
