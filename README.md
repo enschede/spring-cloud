@@ -39,3 +39,8 @@ De aangeroepen functie geeft een Mono of Flux terug. Dat kan heel snel.
 Pas bij het teruggeven van het reply bericht wordt de lambda in de Mono of Flux aangeroepen om de waarde te bepalen.
 
 Dit werkt natuurlijk alleen als je leverancier ook reactive is of het bericht snel kan worden bepaald.
+
+### ELK
+
+Bron: https://github.com/deviantony/docker-elk.git
+
