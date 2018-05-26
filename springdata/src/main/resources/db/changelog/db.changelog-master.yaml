@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: release1
+      author: marcenschede
+      changes:
+        - createTable:
+            tableName: CITIES
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lattitude
+                  type: DECIMAL(10,6)
+              - column:
+                  name: longitude
+                  type: DECIMAL(10,6)
+        - sql:
+            insert into cities (city, longitude, lattitude) values ('enschede', 52.219444, 6.896389);
+            insert into cities (city, longitude, lattitude) values ('hengelo', 52.266667, 6.783333);
