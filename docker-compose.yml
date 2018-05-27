@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  openzipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - servicesnetwork
+#    environment:
+#      - RABBIT_URI=amqp://guest:guest@some-rabbit:5671/
+#      - RABBIT_ADDRESSES=some-rabbit:5671,some-rabbit:5672
+#      - RABBIT_USER=guest
+#      - RABBIT_PASSWORD=guest
+    depends_on:
+      - some-rabbit
+      - eureka
+
+  some-rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "4369:4369"
+      - "15672:15672"
+    networks:
+      - servicesnetwork
+    depends_on:
+      - eureka
+
+  eureka:
+    build: eureka-naming-service/.
+    ports:
+      - "8761:8761"
+    networks:
+      - servicesnetwork
+
+networks:
+  servicesnetwork:
