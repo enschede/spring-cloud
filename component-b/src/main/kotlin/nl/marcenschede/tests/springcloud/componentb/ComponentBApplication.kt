@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import brave.sampler.Sampler
 import org.springframework.context.annotation.Bean
+import org.springframework.web.bind.annotation.RequestParam
 
 
 @SpringBootApplication
@@ -36,11 +37,17 @@ class ComponentBApplication {
 
         logger.info("Request on this node for city = {}", city)
 
-        val forecast = proxy.createForecast(city)
+        val location = proxy.createForecast(city)
+
+        logger.info("Found forecast is {}", location)
+
+        val cityValue = location?._embedded?.cities?.get(0)
+
+        val forecast = Forecast(cityValue?.city?:"",
+                cityValue?.lattitude?:"",
+                cityValue?.longitude?:"")
         forecast?.forecast = "Warm and sunny!"
         forecast?.port = port
-
-        logger.info("Found forecast is {}", forecast)
 
         return forecast
     }
@@ -53,12 +60,16 @@ class ComponentBApplication {
 
 data class Forecast(val city: String, val longitude: String, val lattitude: String, var forecast: String = "", var port:Int = 0)
 
-@FeignClient(name = "zuul-api-gateway-service")
-@RibbonClient(name = "component-c")
+data class Location(val _embedded: Embedded?)
+data class Embedded(val cities: List<City>)
+data class City(val city: String?, val lattitude: String?, val longitude: String?)
+
+@FeignClient(name = "springdata")
+@RibbonClient(name = "springdata")
 interface ForecastProxy {
 
-    @GetMapping("/component-c/locate/{city}")
-    fun createForecast(@PathVariable city: String): Forecast?
+    @GetMapping("citis/search/findByCity")
+    fun createForecast(@RequestParam("city") city: String): Location?
 }
 
 fun main(args: Array<String>) {

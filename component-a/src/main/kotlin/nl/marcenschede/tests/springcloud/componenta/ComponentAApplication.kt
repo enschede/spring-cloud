@@ -30,7 +30,7 @@ class ComponentAApplication {
     @Autowired
     lateinit var proxy: ForecastProxy
 
-    @GetMapping("/forecast/{city}")
+    @GetMapping("/forecast/{city}", produces = arrayOf("application/json"))
     fun createForecast(@PathVariable city: String): ForecastPresenter? =
         proxy.createForecast(city)
 
