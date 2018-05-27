@@ -39,11 +39,6 @@ class ComponentAApplication {
     fun errorForecast(@PathVariable city: String): ForecastPresenter? =
         throw RuntimeException()
 
-    @Bean
-    fun defaultSampler(): Sampler {
-        return Sampler.ALWAYS_SAMPLE
-    }
-
     fun fallbackForecast(@PathVariable city: String): ForecastPresenter? =
         ForecastPresenter("none", "0", "0")
 }
