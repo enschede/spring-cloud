@@ -16,7 +16,6 @@
         <module>component-b</module>
         <module>component-c</module>
         <module>reactive-router</module>
-        <module>zipkin</module>
     </modules>
 
 </project>
